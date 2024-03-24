@@ -5,7 +5,7 @@ from conexion_db import Conexion
 router = APIRouter()
 
 # buscar un usuario 
-@router.get('/usuario/')
+@router.get('/usuario/', tags=['Usuarios'])
 def buscar_usuario(user_name: str):
     user_db = None
     try:

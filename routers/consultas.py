@@ -6,7 +6,7 @@ from typing import List
 router = APIRouter()
 
 # Leer todos los planes de pagos
-@router.get('/planes', response_model=List[Planes])
+@router.get('/planes', response_model=List[Planes], tags=['Planes de pagos'])
 def leer_planes():
 	planes_db = []
 	try:
@@ -37,7 +37,7 @@ def leer_planes():
 	return planes_db
 
 # Buscar un plan de pagos segun su ID
-@router.get('/planes/')
+@router.get('/planes/', tags=['Planes de pagos'])
 def buscar_plan(id_plan: int):
 	planes_db = None
 	try:
@@ -67,7 +67,7 @@ def buscar_plan(id_plan: int):
 
 
 # Leer ultimas 5 compras con una tarjeta
-@router.get('/compras/', response_model=List[Ultimas_Compras])
+@router.get('/compras/', response_model=List[Ultimas_Compras], tags=['Registros de Compras'])
 def ultimas_compras(id_tarjeta: int = 'ID Tarjeta'):
 	ultimas_compras_db = []
 	try:
@@ -98,7 +98,7 @@ def ultimas_compras(id_tarjeta: int = 'ID Tarjeta'):
 	return ultimas_compras_db
 
 # Obtener las cuotas de una compra segun ID de Compras
-@router.get('/cuotas/', response_model=List[Detalle_Cuotas])
+@router.get('/cuotas/', response_model=List[Detalle_Cuotas], tags=['Registros de Compras'])
 def detalle_cuotas(id_compra: int):
 	detalle_cuotas_db = []
 	try:
