@@ -126,3 +126,79 @@ def detalle_cuotas(id_compra: int):
 	return detalle_cuotas_db
 
 
+# Buscar un Comercio segun su ID
+@router.get('/comercios/', tags=['Registros de Compras'])
+def buscar_comercio(id_comercio: int):
+	comercio_db = None
+	try:
+		with Conexion.get_connection() as conexion:
+			with conexion.cursor() as cursor:
+				sentenciaSQL = '''
+				SELECT id, pin, comercio, nombre, domicilio, localidad, provincia, mail, sucursal, socio, cuit
+					FROM tjComercios WHERE id = ?
+				'''
+				cursor.execute(sentenciaSQL, id_comercio)
+				registro = cursor.fetchone()
+				if registro:
+					comercio_db = Comercios(
+						id = registro[0],
+						pin = registro[1],
+						comercio = registro[2],
+						nombre = registro[3],
+						domicilio = registro[4],
+						localidad = registro[5],
+						provincia = registro[6],
+						mail = registro[7],
+						sucursal = registro[8],
+						socio = registro[9],
+						cuit = registro[10]
+					)
+
+	except Exception as e:
+		raise HTTPException(
+			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+			detail="No se pudo establecer la conexión con el servidor!"
+		)
+						
+	return comercio_db
+
+# Buscar una Tarjeta segun su ID
+@router.get('/tarjetas/', tags=['Tarjetas Asociados'])
+def buscar_tarjeta(id_tarjeta: int = 'ID Tarjeta'):
+	tarjeta_db = None
+	try:
+		with Conexion.get_connection() as conexion:
+			with conexion.cursor() as cursor:
+				sentenciaSQL = '''
+				SELECT id, sucursal, socio, adicional, verificador, nombre, domicilio, localidad, provincia, mail, tope, saldo, estado, baja, vencimiento 
+					from tjTarjetas WHERE id = ?
+				'''
+				cursor.execute(sentenciaSQL, id_tarjeta)
+				registro = cursor.fetchone()
+				if registro:
+					tarjeta_db = Tarjetas(
+						id = registro[0],
+						sucursal = registro[1],
+						socio = registro[2],
+						adicional = registro[3],
+						verificador = registro[4],
+						nombre = registro[5],
+						domicilio = registro[6],
+						localidad = registro[7],
+						provincia = registro[8],
+						mail = registro[9],
+						tope = registro[10],
+						saldo = registro[11],
+						estado = registro[12],
+						baja = registro[13],
+						vencimento = registro[14]
+					)
+
+	except Exception as e:
+		raise HTTPException(
+			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+			detail="No se pudo establecer la conexión con el servidor!"
+		)
+						
+	return tarjeta_db
+

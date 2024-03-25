@@ -8,7 +8,7 @@ from fastapi.responses import RedirectResponse
 load_dotenv()
 
 app = FastAPI()
-app.title = "WebService Tarjetas de Compras. MAASoft !!!"
+app.title = "Tarjetas de Compras WebService. MAASoft !!!"
 
 @app.get('/', tags=['Inicio'])
 def mensage():

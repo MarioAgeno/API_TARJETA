@@ -43,3 +43,35 @@ class Detalle_Cuotas(BaseModel):
 	vencimento: datetime
 	importe: float
 	liquidacion: int
+
+# -- Comercios
+class Comercios(BaseModel):
+	id: int
+	pin: int
+	comercio: str
+	nombre: str
+	domicilio: str
+	localidad: str
+	provincia: str
+	sucursal: int
+	socio: int
+	cuit: int
+	mail: str
+
+# -- Tarjetas
+class Tarjetas(BaseModel):
+	id: int
+	sucursal: int
+	socio: int
+	adicional: Optional[int]
+	verificador: int
+	nombre: str
+	domicilio: str
+	localidad: str
+	provincia: str
+	mail: str
+	tope: float
+	saldo: float
+	estado: int
+	baja: Optional[datetime]
+	vencimento: datetime
