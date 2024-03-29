@@ -116,6 +116,40 @@ def buscar_plan(id_plan: int):
 						
 	return planes_db
 
+# Buscar los planes habilitados de un Comercio
+@router.get('/planesComercios/', response_model=List[Planes_Comercios], tags=['Planes de pagos'])
+def planes_comercios(id_comercio: int):
+	planes_db	= []
+	try:
+		with Conexion.get_connection() as conexion:
+			with conexion.cursor() as cursor:
+				sentenciaSQL = '''
+							select * from tjPlanes where tjPlanes.id in 
+							(select idPlan from tjPlanComercio where idComercio=?) and tjPlanes.activo = 1 
+							and tjPlanes.vencimiento >= getdate()
+							'''
+				cursor.execute(sentenciaSQL, id_comercio)
+				registros = cursor.fetchall()
+				if registros:
+					for row in registros:
+						ultimas_compras_list = Planes_Comercios(
+							id = row[0],
+							nombre = row[1],
+							cuotas = row[2],
+							interes = row[3],
+							costofin = row[4]
+						)
+						planes_db.append(ultimas_compras_list)
+
+	except Exception as e:
+		raise HTTPException(
+			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+			detail="No se pudo establecer la conexión con el servidor!"
+		)
+						
+	return planes_db
+
+		
 
 # Leer ultimas 5 compras con una tarjeta
 @router.get('/compras/', response_model=List[Ultimas_Compras], tags=['Registros de Compras'])

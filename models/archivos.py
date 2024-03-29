@@ -32,6 +32,14 @@ class Planes(BaseModel):
 	vencimento: datetime
 	activo: bool
 
+#-- Planes por Comercios
+class Planes_Comercios(BaseModel):
+	id: int
+	nombre: str
+	cuotas: int
+	interes: float
+	costofin: float
+
 #-- Modelo de Vistas con ultinas 5 compras de una tarjeta
 class Ultimas_Compras(BaseModel):
 	fecha: datetime
@@ -80,4 +88,3 @@ class Tarjetas(BaseModel):
 	estado: int
 	baja: Optional[datetime]
 	vencimento: datetime
-
