@@ -17,6 +17,11 @@ class AspNetUsers(BaseModel):
     AccessFailedCount: int
     UserName: str
 
+# -- Estados de Tarjetas
+class Estados(BaseModel):
+	id: int
+	nombre: str
+
 # -- Planes de Finaciacion
 class Planes(BaseModel):
 	id: int
@@ -75,3 +80,4 @@ class Tarjetas(BaseModel):
 	estado: int
 	baja: Optional[datetime]
 	vencimento: datetime
+

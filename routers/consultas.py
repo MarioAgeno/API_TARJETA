@@ -5,6 +5,57 @@ from typing import List
 
 router = APIRouter()
 
+# Leer todos los Estados 
+@router.get('/estados', response_model=List[Estados], tags=['Estado de Tarjetas'])
+def leer_estados():
+	estados_db = []
+	try:
+		with Conexion.get_connection() as conexion:
+			with conexion.cursor() as cursor:
+				sentenciaSQL = 'SELECT id, nombre FROM tjEstados'
+				cursor.execute(sentenciaSQL)
+				tabla = cursor.fetchall()
+				if tabla:
+					for row in tabla:
+						estado_list = Estados(
+							id = row[0],
+							nombre = row[1]
+						)
+						estados_db.append(estado_list)
+
+	except Exception as e:
+		raise HTTPException(
+			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+			detail="No se pudo establecer la conexión con el servidor!"
+		)
+						
+	return estados_db
+
+# Buscar un Estados de Tarjeta segun su ID
+@router.get('/estados/', tags=['Estado de Tarjetas'])
+def buscar_estado(id_estado: int):
+	estado_db = None
+	try:
+		with Conexion.get_connection() as conexion:
+			with conexion.cursor() as cursor:
+				sentenciaSQL = 'SELECT * FROM tjEstados WHERE id = ?'
+				cursor.execute(sentenciaSQL, id_estado)
+				registro = cursor.fetchone()
+				if registro:
+					estado_db = Estados(
+						id = registro[0],
+						nombre = registro[1]
+					)
+
+	except Exception as e:
+		raise HTTPException(
+			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+			detail="No se pudo establecer la conexión con el servidor!"
+		)
+						
+	return estado_db
+
+
 # Leer todos los planes de pagos
 @router.get('/planes', response_model=List[Planes], tags=['Planes de pagos'])
 def leer_planes():
