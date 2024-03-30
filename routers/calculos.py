@@ -12,6 +12,10 @@ class CuotaOutput(BaseModel):
     numero_cuota: int
     monto_cuota: float
 
+class ResultadoCuotas(BaseModel):
+    cuotas: list
+    total_compra: float
+
 def calcular_cuotas(tarjeta: TarjetaInput):
     m = 1
     capital = tarjeta.monto
@@ -23,30 +27,14 @@ def calcular_cuotas(tarjeta: TarjetaInput):
         nValCta = capital * nAmorti / cuotas
     else:
         nAmorti = ((((1 + nTEM) ** cuotas) - 1) / (nTEM * (1 + nTEM) ** cuotas)) ** -1
-        nValCta = capital * nAmorti
+        nValCta = round(capital * nAmorti,2)
     
     cuotas_generadas = []
     for i in range(1, cuotas + 1):
         cuotas_generadas.append(CuotaOutput(numero_cuota=i, monto_cuota=nValCta))
-
-    return cuotas_generadas
-'''
-
-@router.post("/calcular_cuotas/", tags=['Calculos'])
-async def calcular_cuotas_compra(tarjeta: TarjetaInput):
-    try:
-        return calcular_cuotas(tarjeta)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
-@router.get("/calcular_cuotas/", tags=['Calculos'])
-async def endpoint_calcular_cuotas(tarjeta: TarjetaInput):
-    try:
-        return calcular_cuotas(tarjeta)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-'''
+    
+    total_compra = round(nValCta * cuotas,2)
+    return ResultadoCuotas(cuotas=cuotas_generadas, total_compra=total_compra)
 
 @router.get("/calcular_cuotas/", tags=['Calculos'])
 async def calcular_cuotas_compra(monto: float, tasa_interes_mensual: float, cuotas: int):
@@ -55,3 +43,13 @@ async def calcular_cuotas_compra(monto: float, tasa_interes_mensual: float, cuot
         return calcular_cuotas(tarjeta)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+    
+
+# Obtener resultados de los calculo por POST y JSON
+@router.post("/calcular_cuotas/", tags=['Calculos'])
+async def calcular_cuotas_compra(tarjeta: TarjetaInput):
+    try:
+        return calcular_cuotas(tarjeta)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+

@@ -88,3 +88,19 @@ class Tarjetas(BaseModel):
 	estado: int
 	baja: Optional[datetime]
 	vencimento: datetime
+
+# -- Saldo Tarjetas
+class Saldo_Tarjeta(BaseModel):
+	id: int
+	importe: float
+
+# -- Compras
+class Compras(BaseModel):
+	idcomercio: int
+	idtarjeta: int
+	importe: float
+	idplan: int
+	cupon: int
+	carga: str
+	fecha: datetime
+	autorizacion: int
