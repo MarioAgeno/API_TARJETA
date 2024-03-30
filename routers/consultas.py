@@ -57,7 +57,6 @@ def buscar_estado(id_estado: int):
 	finally:
 		cursor.close()
 		conexion.close()
-						
 	return estado_db
 
 
@@ -92,7 +91,6 @@ def leer_planes():
 	finally:
 		cursor.close()
 		conexion.close()
-						
 	return planes_db
 
 # Buscar un plan de pagos segun su ID
@@ -124,7 +122,6 @@ def buscar_plan(id_plan: int):
 	finally:
 		cursor.close()
 		conexion.close()
-
 	return planes_db
 
 # Buscar los planes habilitados de un Comercio
@@ -160,7 +157,6 @@ def planes_comercios(id_comercio: int):
 	finally:
 		cursor.close()
 		conexion.close()
-
 	return planes_db
 
 # Leer ultimas 5 compras con una tarjeta
@@ -194,7 +190,6 @@ def ultimas_compras(id_tarjeta: int = 'ID Tarjeta'):
 	finally:
 		cursor.close()
 		conexion.close()
-
 	return ultimas_compras_db
 
 # Obtener las cuotas de una compra segun ID de Compras
@@ -225,7 +220,6 @@ def detalle_cuotas(id_compra: int):
 	finally:
 		cursor.close()
 		conexion.close()
-
 	return detalle_cuotas_db
 
 
@@ -265,28 +259,7 @@ def buscar_comercio(id_comercio: int):
 	finally:
 		cursor.close()
 		conexion.close()
-							
 	return comercio_db
-
-# -- Grabar Compras
-def grabar_compra(compra: Compras):
-    try:
-        conexion = Conexion.get_connection()
-        cursor = conexion.cursor()
-        cursor.execute("exec grabarCompra ?, ?, ?, ?, ?, ?, ?, ?", 
-                       [compra.idcomercio, compra.idtarjeta, compra.importe, compra.idplan, compra.cupon, compra.carga, compra.fecha, compra.autorizacion])
-        conexion.commit()
-        return {"message": "Compra grabada exitosamente"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    finally:
-        cursor.close()
-        conexion.close()
-
-@router.post("/grabar_compra/", tags=['Registros de Compras'])
-async def grabar_compra_tarjeta(compra: Compras):
-    return grabar_compra(compra)
-
 
 # Buscar una Tarjeta segun su ID
 @router.get('/tarjetas/', tags=['Tarjetas Asociados'])
@@ -327,30 +300,5 @@ def buscar_tarjeta(id_tarjeta: int = 'ID Tarjeta'):
 		)
 	finally:
 		cursor.close()
-		conexion.close()
-						
+		conexion.close()	
 	return tarjeta_db
-
-# -- Actualizar el Saldo de la Tarjeta
-def actualizar_saldo_tarjeta(saldos_tarjeta: Saldo_Tarjeta):
-    try:
-        # Establecer conexión a la base de datos
-        conexion = Conexion.get_connection()
-        cursor = conexion.cursor()
-
-        # Ejecutar el procedimiento almacenado
-        cursor.execute("exec grabarSaldoTarj ?, ?", [saldos_tarjeta.id, saldos_tarjeta.importe])
-        conexion.commit()
-
-        return {"message": "Saldo de la tarjeta actualizado correctamente"}
-    except Exception as e:
-        # Manejo de errores
-        raise HTTPException(status_code=500, detail=str(e))
-    finally:
-        # Cerrar el cursor y la conexión
-        cursor.close()
-        conexion.close()
-
-@router.put("/actualizar_saldo_tarjeta/", tags=['Tarjetas Asociados'])
-async def actualizar_saldo(saldos_tarjeta: Saldo_Tarjeta):
-    return actualizar_saldo_tarjeta(saldos_tarjeta)

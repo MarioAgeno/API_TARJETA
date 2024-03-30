@@ -46,5 +46,7 @@ def buscar_usuario(user_name: str):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="No se pudo establecer la conexión con el servidor!"
         )
-
+    finally:
+        cursor.close()
+        conexion.close()	
     return user_db
