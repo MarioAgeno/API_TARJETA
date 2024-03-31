@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from models.archivos import *
 from conexion_db import Conexion
+#from passlib.context import CryptContext
 
 router = APIRouter()
 
@@ -50,3 +51,4 @@ def buscar_usuario(user_name: str):
         cursor.close()
         conexion.close()	
     return user_db
+
