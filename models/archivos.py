@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Optional
 
-#-- Modelos ---------------
+#-- Modelos Usuarios .NET 
 class AspNetUsers(BaseModel):
     Id: str
     Email: Optional[str]
@@ -16,6 +16,15 @@ class AspNetUsers(BaseModel):
     LockoutEnabled: bool
     AccessFailedCount: int
     UserName: str
+
+# -- Vista con datos de Usuario, Comercio y Tarjeta
+class Socio_Tarjeta_Comercio(BaseModel):
+	SocioId: int
+	TarjetaId: Optional[int]
+	Titular: Optional[str]
+	ComercioId: Optional[int]
+	Comercio: Optional[str]
+	AspNetUserId: str
 
 # -- Estados de Tarjetas
 class Estados(BaseModel):
