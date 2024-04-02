@@ -38,17 +38,11 @@ def buscar_usuario(user_name: str):
                         UserName=user[11]
                     )
                 else:
-                    raise HTTPException(
-                        status_code=status.HTTP_404_NOT_FOUND,
-                        detail="Usuario no encontrado"
-                    )
+                    return {'Mensaje': "Usuario no encontrado"}
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="No se pudo establecer la conexión con el servidor!"
         )
-    finally:
-        cursor.close()
-        conexion.close()	
     return user_db
 

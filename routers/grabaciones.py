@@ -25,7 +25,6 @@ async def grabar_compra_tarjeta(compra: Compras):
     return grabar_compra(compra)
 
 
-
 # -- Actualizar el Saldo de la Tarjeta
 def actualizar_saldo_tarjeta(saldos_tarjeta: Saldo_Tarjeta):
     try:
