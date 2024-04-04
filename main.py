@@ -15,7 +15,7 @@ import os
 load_dotenv()
 
 # Obtener el token de las variables de entorno
-token_lectura = os.getenv("TOKEN")
+token_lectura = os.getenv("TOKEN_ACESO")
 
 app = FastAPI()
 security = HTTPBearer()
