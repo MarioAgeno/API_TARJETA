@@ -10,6 +10,7 @@ from routers.calculos import router as calcular_cuotas
 from routers.grabaciones import router as grabaciones
 from routers.usuario import router as usuario_router
 import os
+import uvicorn
 
 #-- Cargar las variables de entorno.
 load_dotenv()
@@ -19,7 +20,7 @@ token_lectura = os.getenv("TOKEN_ACESO")
 
 app = FastAPI()
 security = HTTPBearer()
-app.title = "Tarjetas de Compras WebService. MAASoft !!!"
+app.title = "MAASoft - API Tarjetas de Compras !!!"
 
 ## Middleware para validar el token en rutas protegidas
 async def validate_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
@@ -44,10 +45,17 @@ async def get_custom_openapi():
     return JSONResponse(get_openapi(title="API Documentation", version="1.0.0", routes=app.routes))
 
 
-@app.get('/', tags=['Inicio'])
+@app.get('/', response_class=HTMLResponse, tags=['Inicio'])
 async def mensage():
-    return 'http://www.maasoft.com.ar'
+    return '''
+        <h1><a href='http://www.maasoft.com.ar'>MAASoft WEB</a></h1>
+        <a href='http://0.0.0.0:5005/docs'>Documentacion</a>
+    '''
 app.include_router(consultas_router, dependencies=[Depends(validate_token)])
 app.include_router(calcular_cuotas, dependencies=[Depends(validate_token)])
 app.include_router(grabaciones, dependencies=[Depends(validate_token)])
 app.include_router(usuario_router, dependencies=[Depends(validate_token)])
+
+
+if __name__ == '__main__':
+    uvicorn.run(app, host='0.0.0.0', port=5005)
