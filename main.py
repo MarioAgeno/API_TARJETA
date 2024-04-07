@@ -49,11 +49,12 @@ async def get_custom_openapi():
 async def mensage():
     return '''
         <h1><a href='http://www.maasoft.com.ar'>MAASoft WEB</a></h1>
-        <a href='http://0.0.0.0:5005/docs'>Documentacion</a>
+        <a href='http://localhost:5005/docs'>Documentacion</a>
     '''
 app.include_router(consultas_router, dependencies=[Depends(validate_token)])
 app.include_router(calcular_cuotas, dependencies=[Depends(validate_token)])
 app.include_router(grabaciones, dependencies=[Depends(validate_token)])
+#app.include_router(grabaciones)
 app.include_router(usuario_router, dependencies=[Depends(validate_token)])
 
 # -- Para Ejecutar desde consola solo llamando py main.py
