@@ -10,7 +10,7 @@ from routers.calculos import router as calcular_cuotas
 from routers.grabaciones import router as grabaciones
 from routers.usuario import router as usuario_router
 import os
-#import uvicorn
+import uvicorn
 
 #-- Cargar las variables de entorno.
 load_dotenv()
@@ -49,15 +49,13 @@ async def get_custom_openapi():
 async def mensage():
     return '''
         <h1><a href='http://www.maasoft.com.ar'>MAASoft WEB</a></h1>
-        <a href='http://186.189.231.234:5005/docs'>Documentacion</a>
+        <a href='http://0.0.0.0:5005/docs'>Documentacion</a>
     '''
 app.include_router(consultas_router, dependencies=[Depends(validate_token)])
 app.include_router(calcular_cuotas, dependencies=[Depends(validate_token)])
 app.include_router(grabaciones, dependencies=[Depends(validate_token)])
 app.include_router(usuario_router, dependencies=[Depends(validate_token)])
 
-# -- Para Ejecutar desde consola solo llamando py main.py
-'''
+
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=5005)
-'''

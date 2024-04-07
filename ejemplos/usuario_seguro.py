@@ -26,8 +26,8 @@ def verificar_token(token, clave_secreta):
         return 'Token inválido. Por favor inicia sesión nuevamente.'
 
 # Ejemplo de uso
-usuario_id = 888
-clave_secreta = 'clave_secreta_super_segura'
+usuario_id = 'AMOREMIO'
+clave_secreta = 'Esta_es_mi_clave_secreta'
 
 # Generar un token para el usuario
 token_generado = generar_token(usuario_id, clave_secreta)

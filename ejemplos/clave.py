@@ -1,5 +1,5 @@
 '''
-rutina para crear claves unicas
+Esta modulo o funcion crea claves unicas 
 '''
 import uuid
 
