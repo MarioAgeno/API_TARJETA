@@ -54,7 +54,6 @@ async def mensage():
 app.include_router(consultas_router, dependencies=[Depends(validate_token)])
 app.include_router(calcular_cuotas, dependencies=[Depends(validate_token)])
 app.include_router(grabaciones, dependencies=[Depends(validate_token)])
-#app.include_router(grabaciones)
 app.include_router(usuario_router, dependencies=[Depends(validate_token)])
 
 # -- Para Ejecutar desde consola solo llamando py main.py
